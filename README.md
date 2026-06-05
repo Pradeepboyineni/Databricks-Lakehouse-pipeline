@@ -1,2 +1,3 @@
-# Databricks-Lakehouse-pipeline
-i am connecting to azure databricks to github for the project of Novacart company
+## Architecture Diagram
+
+![Novacart E-Commerce Lakehouse Architecture](./images/novacart-architecture.png)
