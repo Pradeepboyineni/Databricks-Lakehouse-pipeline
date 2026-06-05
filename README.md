@@ -192,6 +192,25 @@ Amount fields containing $ symbols or comma values
 ![Quarantine Table Output](./images/Quarantine_table_1.png)
 ![Quarantine Table Output](./images/Quarantine_table_2.png)
 
+---
+
+## Gold Layer - Business-Ready Analytics
+
+The Gold layer creates business-ready tables from cleaned Silver data. These tables are used for reporting, dashboards, payment analysis, category performance, and historical tracking.
+
+Gold processing is incremental. Instead of rebuilding all tables every time, the pipeline identifies only changed Silver records and recalculates impacted orders.
+
+---
+
+### Gold Input Tables
+
+```text
+silver_schema.orders_transformed
+silver_schema.products_transformed
+silver_schema.payments_transformed
+```
+
+
 
 
 
