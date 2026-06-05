@@ -158,5 +158,39 @@ The Silver control table tracks incremental processing for each entity. It store
 
 ![Silver Control Table](./images/Silver_layer_control_table_2.png)
 
+---
+### Silver Orders Cleaned Output
+
+The `orders_clean` table contains cleaned, standardized, deduplicated, and validated order records from the Bronze layer.
+
+In this step, order data is processed by trimming spaces, standardizing order status values, converting order amounts into decimal format, removing invalid records, and keeping only the latest valid record for each `order_id`.
+
+![Silver Orders Cleaned Output](./images/orders_cleaned.png)
+
+## Quarantine Handling - Data Quality Exception Management
+
+The Quarantine layer stores records that fail Silver-level validation rules. Instead of dropping bad records silently, the pipeline captures them separately with a clear verification reason for debugging, monitoring, and business review.
+
+This approach helps maintain trusted Silver and Gold tables while still preserving invalid records for investigation.
+
+---
+
+### Why Quarantine Is Needed
+
+Real-world source data can contain issues such as:
+
+```text
+Null customer IDs
+Blank order statuses
+Unknown payment statuses
+Negative order amounts
+Invalid product prices
+Missing product categories
+Amount fields containing $ symbols or comma values
+```
+![Quarantine Table Output](./images/Quarantine_table_1.png)
+![Quarantine Table Output](./images/Quarantine_table_2.png)
+
+
 
 
