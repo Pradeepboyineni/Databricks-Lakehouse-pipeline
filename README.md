@@ -150,4 +150,13 @@ The Silver layer handles the following responsibilities:
 * Merge clean records into Silver Delta tables
 * Update Silver processing control table after successful completion
 
+### Silver Control Table
+
+The Silver control table tracks incremental processing for each entity. It stores the latest processed Bronze timestamp, Silver run ID, rows merged, run status, and update time. This makes the Silver layer incremental, restartable, and auditable.
+
+![Silver Control Table](./images/Silver_layer_control_table.png)
+
+![Silver Control Table](./images/Silver_layer_control_table_2.png)
+
+
 
