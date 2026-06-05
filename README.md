@@ -89,7 +89,7 @@ Category typo such as ELECTRINICS
 Extra spaces in text columns
 ```
 
-Bronze Layer
+##Bronze Layer
 
 The Bronze layer stores raw incremental data from SQL Server.
 ```
@@ -104,4 +104,50 @@ Bronze Responsibilities
 * Add ingestion audit columns
 * Track ingestion status using a control table
 * Maintain raw history for debugging and replay
+
+##Silver Layer
+```
+Bronze Raw Tables
+        |
+        | Read latest processed Bronze watermark
+        v
+Filter only new Bronze records
+        |
+        v
+Apply cleaning and standardization rules
+        |
+        v
+Deduplicate records using window functions
+        |
+        v
+Apply data quality validation rules
+        |
+        |---------------- Bad Records ----------------|
+        v                                             v
+Valid Records                                  Quarantine Tables
+        |
+        v
+MERGE / Upsert into Silver Clean Tables
+        |
+        v
+Update Silver Processing Control Table
+        |
+        v
+Silver data ready for Gold processing
+```
+Silver Responsibilities
+
+The Silver layer handles the following responsibilities:
+
+* Read only new Bronze records
+* Clean messy string values
+* Standardize status and category values
+* Convert string amounts to decimal values
+* Fix known source data issues
+* Remove duplicate records
+* Apply data quality rules
+* Separate invalid records into quarantine tables
+* Merge clean records into Silver Delta tables
+* Update Silver processing control table after successful completion
+
 
