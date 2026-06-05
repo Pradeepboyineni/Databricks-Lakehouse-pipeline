@@ -165,7 +165,7 @@ The `orders_clean` table contains cleaned, standardized, deduplicated, and valid
 
 In this step, order data is processed by trimming spaces, standardizing order status values, converting order amounts into decimal format, removing invalid records, and keeping only the latest valid record for each `order_id`.
 
-![Silver Orders Cleaned Output](./images/orders_cleaned.png)
+![Silver Orders Cleaned Output](./images/Silver_Orders_cleaned.png)
 
 ## Quarantine Handling - Data Quality Exception Management
 
