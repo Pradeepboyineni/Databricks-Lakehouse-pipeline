@@ -209,6 +209,110 @@ silver_schema.orders_transformed
 silver_schema.products_transformed
 silver_schema.payments_transformed
 ```
+# Gold Layer - Impacted Orders & SCD Type 2 Processing
+
+This project implements the **Gold Layer** of an end-to-end Databricks Lakehouse pipeline for an e-commerce dataset.
+
+The Gold layer is designed to process only **impacted orders** instead of recomputing the entire dataset every time. This makes the pipeline more efficient, scalable, and closer to real-world production data engineering practices.
+
+## What This Gold Layer Does
+
+The Gold pipeline identifies changed or impacted `order_id` values from:
+
+- Orders
+- Payments
+- Products
+
+After identifying impacted orders, the pipeline rebuilds only those affected records in the Gold table.
+
+## Key Features
+
+- Impacted-order based processing
+- Incremental Gold table updates
+- Joins orders, products, and payments data
+- Calculates payment completion ratio
+- Creates payment state such as:
+  - Paid
+  - Partially Paid
+  - Overpaid
+- Maintains Gold audit columns
+- Implements SCD Type 2 history tracking
+- Tracks current and historical order records using:
+  - `valid_from_ts`
+  - `valid_to_ts`
+  - `is_current`
+
+## Impacted Order IDs
+
+The pipeline first collects all impacted order IDs from upstream Silver tables.
+
+![Impacted Order IDs](images/Impacted_order_ids.png)
+
+## Gold Orders Information
+
+After identifying impacted orders, the pipeline rebuilds the final Gold records with business-ready order information.
+
+![Gold Orders Information 1](images/Orders_information_1.png)
+
+![Gold Orders Information 2](images/Orders_information_2.png)
+
+## SCD Type 2 Output
+
+The Gold layer also maintains order history using SCD Type 2 logic.
+
+When an order changes, the old record is expired and a new current record is inserted.
+
+Example:
+
+- Old record: `is_current = false`
+- New record: `is_current = true`
+
+![SCD Type 2 Example A](images/SCD_TYPE_2(A).png)
+
+![SCD Type 2 Example B](images/SCD_TYPE_2(B).png)
+
+## Why This Is Important
+
+This design avoids full-table recomputation and processes only changed business entities.
+
+In real-world data engineering, this helps with:
+
+- Better performance
+- Lower compute cost
+- Faster pipeline execution
+- Historical tracking
+- Auditability
+- Reliable reporting
+
+## Tables Used
+
+### Input Silver Tables
+
+- `silver_orders`
+- `silver_products`
+- `silver_payments`
+
+### Output Gold Table
+
+- `gold_schema.orders_information_scd2`
+
+## Main Business Logic
+
+The pipeline:
+
+1. Finds impacted order IDs from changed orders, products, and payments.
+2. Joins the required Silver tables.
+3. Recalculates Gold business columns.
+4. Updates the Gold SCD Type 2 table.
+5. Keeps only the latest record as current.
+6. Preserves older versions for history.
+
+## Sample Validation Query
+
+```sql
+SELECT *
+FROM databricks_ecom_project.gold_schema.orders_information_scd2
+WHERE order_id = 200002;
 
 
 
