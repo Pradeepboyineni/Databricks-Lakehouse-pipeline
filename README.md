@@ -313,6 +313,67 @@ The pipeline:
 SELECT *
 FROM databricks_ecom_project.gold_schema.orders_information_scd2
 WHERE order_id = 200002;
+```
+## Dashboard & Databricks Workflow
+
+This project includes a Databricks dashboard and an automated job pipeline to validate the final Gold layer output.
+
+The dashboard is built on top of the Gold tables and shows business-level KPIs for the e-commerce pipeline.
+
+## Dashboard Highlights
+
+- Shows total orders processed from the Gold layer
+- Tracks total paid amount and GMV
+- Displays order distribution by product category
+- Shows payment status summary such as Success, Failed, and Pending
+- Identifies top products by revenue
+- Helps validate whether the Gold table is ready for business reporting
+
+![Dashboard Overview](images/Dashboard_1.png)
+
+![Project Dashboard](images/Dashboard_2.png)
+
+## Databricks Jobs & Pipeline
+
+The complete pipeline is orchestrated using Databricks Jobs and Workflows.
+
+Pipeline flow:
+
+1. Bronze Work - incremental raw data ingestion
+2. Silver Work - data cleaning, validation, and deduplication
+3. Gold Work - impacted-order processing and SCD Type 2 updates
+4. Dashboard - business reporting from Gold tables
+5. Alert Task - notification after pipeline execution
+
+![Databricks Job Pipeline](images/job_pipeline.png)
+
+![Jobs and Pipeline Timeline](images/Jobs&pipeline.png)
+
+## Workflow Execution
+
+The workflow completed successfully with:
+
+- Bronze, Silver, Gold, Dashboard, and Alert tasks
+- Serverless compute
+- Performance optimization enabled
+- Job lineage tracking
+- Upstream and downstream table visibility
+- End-to-end execution monitoring
+
+## Why This Adds Value
+
+This shows that the project is not just notebook-based.  
+It includes production-style orchestration and reporting.
+
+Key concepts demonstrated:
+
+- Databricks Workflows
+- Task dependency management
+- End-to-end pipeline orchestration
+- Dashboard creation
+- Monitoring job duration
+- Successful pipeline execution tracking
+- Business-ready reporting from Gold tables
 
 
 
